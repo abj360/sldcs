@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SLDCS — Shrimp Larvae Detection and Counting System</title>
+  <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500;1,6..72,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <!-- Persistent shell -->
+  <header class="shell" role="banner">
+    <div class="shell-left">
+      <img class="wordmark" src="/static/logo.svg" alt="SLDCS" width="110" height="32" />
+      <span id="status-dot" class="status-dot" title="Model status" aria-live="polite"></span>
+    </div>
+    <div class="shell-right">
+      <button id="model-tag" class="model-tag" type="button" aria-label="View instrument info">
+        <span id="model-tag-name" class="mono">PRETRAINED · yolov5s (COCO)</span>
+        <span id="model-tag-conf" class="mono muted">conf ≥ 0.40</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" class="main">
+    <!-- Screen 1 — The Tray -->
+    <section id="screen-tray" class="screen screen-tray" aria-label="Upload">
+      <div id="dropzone" class="tray" tabindex="0" role="button"
+           aria-label="Drop specimen images, or select a folder">
+        <span class="reticle reticle-tl" aria-hidden="true"></span>
+        <span class="reticle reticle-tr" aria-hidden="true"></span>
+        <span class="reticle reticle-bl" aria-hidden="true"></span>
+        <span class="reticle reticle-br" aria-hidden="true"></span>
+        <span class="tray-wordmark">SLDCS</span>
+        <p class="tray-instruction">Drop specimen images, or select a folder</p>
+        <p id="tray-params" class="mono muted tray-params">640×640 tiles · 64px overlap · conf ≥ 0.40</p>
+        <p id="tray-error" class="mono tray-error" role="alert" hidden></p>
+        <input id="file-input" type="file" accept="image/jpeg,image/png,image/bmp"
+               multiple hidden />
+      </div>
+
+      <div class="session-stats">
+        <div class="stat"><span class="mono muted stat-label">SPECIMENS PROCESSED (session)</span><span id="stat-processed" class="mono stat-value">0</span></div>
+        <div class="stat"><span class="mono muted stat-label">AVG. CONFIDENCE</span><span id="stat-avgconf" class="mono stat-value">—</span></div>
+        <div class="stat"><span class="mono muted stat-label">AVG. LATENCY</span><span id="stat-latency" class="mono stat-value">—</span></div>
+      </div>
+
+      <ol class="process-strip" aria-label="Processing pipeline">
+        <li><span class="mono step-num">01</span><span class="step-name">CAPTURE</span><span class="step-desc muted">Full-tray specimen photograph is received</span></li>
+        <li><span class="mono step-num">02</span><span class="step-name">TILE</span><span class="step-desc muted">Image is cropped and segmented into overlapping tiles</span></li>
+        <li><span class="mono step-num">03</span><span class="step-name">DETECT</span><span class="step-desc muted">YOLOv5 scans every tile for larvae</span></li>
+        <li><span class="mono step-num">04</span><span class="step-name">STITCH</span><span class="step-desc muted">Tile detections are merged back into the full image</span></li>
+        <li><span class="mono step-num">05</span><span class="step-name">REPORT</span><span class="step-desc muted">Duplicates are removed and the final count is returned</span></li>
+      </ol>
+    </section>
+
+    <!-- Screen 2 — Processing -->
+    <section id="screen-processing" class="screen screen-processing" aria-label="Processing" hidden>
+      <div class="tray tray-processing">
+        <img id="processing-thumb" class="processing-thumb" alt="Uploaded specimen" />
+      </div>
+      <p id="processing-status" class="mono processing-status" aria-live="polite">TILING…</p>
+      <p id="processing-slow" class="muted processing-slow" hidden>Large image — this may take a moment.</p>
+    </section>
+
+    <!-- Screen 3 — The Specimen Report -->
+    <section id="screen-report" class="screen screen-report" aria-label="Results" hidden>
+      <div id="filmstrip" class="filmstrip" hidden></div>
+      <div id="aggregate-bar" class="aggregate-bar mono" hidden></div>
+
+      <div class="report-grid">
+        <div class="report-image-col">
+          <div id="image-stage" class="image-stage">
+            <img id="result-image" class="result-image" alt="Annotated specimen" />
+            <div id="scan-line" class="scan-line" aria-hidden="true"></div>
+            <div id="box-layer" class="box-layer" aria-hidden="true"></div>
+          </div>
+          <div class="image-toolbar" role="toolbar" aria-label="Image controls">
+            <button id="btn-zoom-in" class="tool-btn" type="button">Zoom +</button>
+            <button id="btn-zoom-out" class="tool-btn" type="button">Zoom −</button>
+            <button id="btn-toggle-boxes" class="tool-btn" type="button" aria-pressed="true">Boxes</button>
+            <button id="btn-toggle-labels" class="tool-btn" type="button" aria-pressed="true">Labels</button>
+            <button id="btn-download" class="tool-btn" type="button">Download</button>
+          </div>
+        </div>
+
+        <aside class="report-data-col">
+          <div class="count-block">
+            <span id="count-value" class="count-value">0</span>
+            <span class="mono count-label">LARVAE DETECTED</span>
+          </div>
+
+          <div class="stat-grid">
+            <div class="stat"><span class="mono muted stat-label">AVG CONFIDENCE</span><span id="r-avgconf" class="mono stat-value">—</span></div>
+            <div class="stat"><span class="mono muted stat-label">PROCESSING TIME</span><span id="r-time" class="mono stat-value">—</span></div>
+            <div class="stat"><span class="mono muted stat-label">TILES SCANNED</span><span id="r-tiles" class="mono stat-value">—</span></div>
+            <div class="stat"><span class="mono muted stat-label">DUPLICATES MERGED</span><span id="r-dups" class="mono stat-value">—</span></div>
+          </div>
+
+          <div class="conf-dist">
+            <span class="mono muted stat-label">CONFIDENCE DISTRIBUTION</span>
+            <div id="conf-bars" class="conf-bars" aria-hidden="true"></div>
+          </div>
+
+          <div class="detection-list-wrap">
+            <span class="mono muted stat-label">DETECTIONS</span>
+            <ul id="detection-list" class="detection-list"></ul>
+          </div>
+
+          <div class="report-actions">
+            <button id="btn-export" class="btn-primary mono" type="button">Export Report (JSON)</button>
+            <button id="btn-again" class="btn-quiet" type="button">Process Another</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Screen 4 — Instrument Info -->
+    <section id="screen-info" class="screen screen-info" aria-label="Instrument info" hidden>
+      <h2 class="info-title">Instrument</h2>
+      <table class="info-table mono">
+        <tbody id="info-table-body"></tbody>
+      </table>
+      <p id="info-note" class="info-note"></p>
+      <button id="btn-info-back" class="btn-quiet" type="button">Back</button>
+    </section>
+  </main>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>
