@@ -32,3 +32,5 @@ runs/
 # The pretrained checkpoint is tracked (or fetched via
 # scripts/download_pretrained.py); see docs/SETUP.md for the size-based
 # decision recorded in Step 11 of the build.
+.chrome-prof/
+.preview_final.png
