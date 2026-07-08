@@ -50,6 +50,33 @@ class DriveAuthenticationError(RuntimeError):
     """
 
 
+def _safe_download_target(destination_dir: Path, drive_name: str) -> Path | None:
+    """Resolve an untrusted Drive filename to a path safely inside the download dir.
+
+    A Drive file's ``name`` is attacker-influenced (anyone who can add a file to
+    the shared folder controls it) and must never be joined onto a local path
+    verbatim: a name like ``../../etc/cron.d/x`` or ``/etc/passwd`` would escape
+    ``destination_dir`` and overwrite arbitrary files. This strips the name to a
+    bare basename and confirms the result still lands directly inside the
+    destination directory.
+
+    Args:
+        destination_dir: The directory downloads are confined to.
+        drive_name: The untrusted filename from the Drive API.
+
+    Returns:
+        A safe path inside ``destination_dir``, or ``None`` if the name cannot be
+        made safe (empty, ``.``/``..``, or otherwise escaping).
+    """
+    basename = Path(drive_name).name
+    if not basename or basename in {".", ".."}:
+        return None
+    target = destination_dir / basename
+    if target.resolve().parent != destination_dir.resolve():
+        return None
+    return target
+
+
 def authenticate_google_drive(credentials_path: str) -> Resource:
     """Build an authenticated Google Drive API service object.
 
@@ -169,7 +196,10 @@ def download_images(
 
     for file_meta in files:
         name = file_meta["name"]
-        target = destination_dir / name
+        target = _safe_download_target(destination_dir, name)
+        if target is None:
+            failed.append(f"{name}: unsafe filename, refused")
+            continue
         expected_size = int(file_meta["size"]) if file_meta.get("size") else None
         if target.exists() and expected_size is not None and target.stat().st_size == expected_size:
             skipped += 1

@@ -18,3 +18,10 @@ semantic versioning once a first release is tagged.
 - FastAPI service with health, readiness, model-info, class-list, version, single-image detection, and batch detection endpoints.
 - Four-screen web interface (tray, processing, specimen report, instrument info) with the scan-sweep results animation.
 - Training infrastructure: versioned configs, a ModelTrainer, and evaluation/figure functions.
+
+### Security
+- Confined Google Drive downloads to the destination directory, refusing traversal and absolute filenames so a hostile Drive filename cannot write outside `data/raw`.
+- Rejected decompression-bomb uploads by capping the decoded pixel count, and capped the number of files accepted per detection request.
+
+### Fixed
+- Serialized model inference with a lock so concurrent requests can no longer corrupt each other's detections on the shared YOLOv5 instance.

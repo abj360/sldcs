@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import contextlib
 import functools
+import threading
 from pathlib import Path
 from typing import Any, Final, Iterator
 
@@ -109,6 +110,12 @@ class YOLOv5Inference:
         self.model.conf = conf_threshold
         self.model.iou = iou_threshold
 
+        # Requests are handled in a threadpool, but a single YOLOv5 model
+        # instance is not safe to run forward passes on from multiple threads at
+        # once (shared buffers, single CUDA stream). Serialize the model calls so
+        # concurrent requests cannot corrupt each other's detections.
+        self._inference_lock = threading.Lock()
+
     @staticmethod
     def _resolve_device(device: str) -> str:
         """Resolve an "auto" device request to a concrete device string.
@@ -190,9 +197,10 @@ class YOLOv5Inference:
         tiles, origins = crop_and_tile_image(prepared, self.tile_size, self.tile_overlap)
 
         tiles_results: list[list[dict]] = []
-        for tile in tiles:
-            raw = self.model(tile, size=self.tile_size)
-            tiles_results.append(self.postprocess_results(raw))
+        with self._inference_lock:
+            for tile in tiles:
+                raw = self.model(tile, size=self.tile_size)
+                tiles_results.append(self.postprocess_results(raw))
 
         stitched = stitch_results(tiles_results, origins, (width, height))
         deduped = remove_duplicate_detections(stitched, self.dedup_iou_threshold)

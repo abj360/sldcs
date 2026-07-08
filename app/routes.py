@@ -32,6 +32,17 @@ ALLOWED_CONTENT_TYPES: Final[frozenset[str]] = frozenset(
 )
 ALLOWED_EXTENSIONS: Final[frozenset[str]] = frozenset({".jpg", ".jpeg", ".png", ".bmp"})
 
+# A small compressed file can decode to an enormous bitmap ("decompression
+# bomb"); the byte-size limit alone does not bound the decoded pixel count, so
+# reject images whose decoded area is implausibly large before the pipeline
+# spends memory tiling, annotating, and re-encoding them. 120 MP comfortably
+# clears any real full-tray specimen photograph.
+MAX_IMAGE_PIXELS: Final[int] = 120_000_000
+
+# Upper bound on images accepted in a single request, so one call cannot pin the
+# instrument by submitting an unbounded number of files.
+MAX_UPLOAD_FILES: Final[int] = 64
+
 
 def _decode_image_bytes(data: bytes) -> np.ndarray:
     """Decode raw image bytes into a BGR array.
@@ -43,7 +54,8 @@ def _decode_image_bytes(data: bytes) -> np.ndarray:
         The decoded ``(H, W, 3)`` BGR image.
 
     Raises:
-        HTTPException: 400 if the bytes cannot be decoded as an image.
+        HTTPException: 400 if the bytes cannot be decoded as an image, or 413 if
+            the decoded image exceeds :data:`MAX_IMAGE_PIXELS`.
     """
     array = np.frombuffer(data, dtype=np.uint8)
     image = cv2.imdecode(array, cv2.IMREAD_COLOR)
@@ -52,7 +64,32 @@ def _decode_image_bytes(data: bytes) -> np.ndarray:
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Could not decode image; the file may be corrupt.",
         )
+    height, width = image.shape[:2]
+    if height * width > MAX_IMAGE_PIXELS:
+        raise HTTPException(
+            status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+            detail=(
+                f"Image resolution {width}×{height} exceeds the "
+                f"{MAX_IMAGE_PIXELS:,}-pixel limit — resize and try again."
+            ),
+        )
     return image
+
+
+def enforce_upload_count(count: int) -> None:
+    """Reject requests that submit more images than the per-request limit.
+
+    Args:
+        count: Number of files in the request.
+
+    Raises:
+        HTTPException: 413 if ``count`` exceeds :data:`MAX_UPLOAD_FILES`.
+    """
+    if count > MAX_UPLOAD_FILES:
+        raise HTTPException(
+            status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+            detail=f"Too many files in one request — send at most {MAX_UPLOAD_FILES}.",
+        )
 
 
 async def validate_upload(upload: UploadFile, max_file_size: int) -> bytes:

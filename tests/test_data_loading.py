@@ -16,6 +16,7 @@ import cv2
 import numpy as np
 
 import generate_annotation_guide as gag
+import google_drive_sync as gds
 import prepare_dataset as pds
 import validate_data as vd
 
@@ -113,3 +114,26 @@ def test_annotation_format_validator_reports_errors(tmp_path: Path) -> None:
     bad.write_text("1 0.5 0.5 0.2 0.2\n0 1.5 0.5 0.2 0.2\n")
     errors = gag.validate_annotation_format(bad)
     assert len(errors) == 2
+
+
+def test_drive_sync_accepts_plain_filename(tmp_path: Path) -> None:
+    """A normal Drive filename resolves to a path inside the destination."""
+    target = gds._safe_download_target(tmp_path, "specimen_001.jpg")
+    assert target == tmp_path / "specimen_001.jpg"
+
+
+def test_drive_sync_never_escapes_destination(tmp_path: Path) -> None:
+    """Hostile Drive filenames are refused or confined inside the destination.
+
+    A traversal or absolute name must never resolve to a path outside the
+    download directory; it is either refused (``None``) or reduced to a bare
+    filename that lands directly inside it.
+    """
+    base = tmp_path.resolve()
+    for hostile in ["../../etc/cron.d/evil", "/etc/passwd", "sub/../../escape"]:
+        target = gds._safe_download_target(tmp_path, hostile)
+        assert target is not None
+        assert target.resolve().parent == base
+
+    for refused in ["", ".", ".."]:
+        assert gds._safe_download_target(tmp_path, refused) is None

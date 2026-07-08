@@ -127,3 +127,28 @@ def test_detect_rejects_oversized_file(
         assert response.status_code == 413
     finally:
         test_client.app.state.settings.MAX_FILE_SIZE = original
+
+
+def test_detect_rejects_too_many_files(
+    test_client: TestClient, sample_image_bytes: bytes
+) -> None:
+    """A request with more files than the per-request cap is rejected with 413."""
+    from app.routes import MAX_UPLOAD_FILES
+
+    files = [
+        ("files", (f"img_{i}.jpg", sample_image_bytes, "image/jpeg"))
+        for i in range(MAX_UPLOAD_FILES + 1)
+    ]
+    response = test_client.post("/detect", files=files)
+    assert response.status_code == 413
+
+
+def test_detect_rejects_decompression_bomb(
+    test_client: TestClient, sample_image_bytes: bytes, monkeypatch
+) -> None:
+    """An image whose decoded pixel count exceeds the guard is rejected with 413."""
+    monkeypatch.setattr("app.routes.MAX_IMAGE_PIXELS", 1)
+    response = test_client.post(
+        "/detect", files={"files": ("bomb.png", sample_image_bytes, "image/png")}
+    )
+    assert response.status_code == 413

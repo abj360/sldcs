@@ -32,6 +32,7 @@ from app.models import (
 )
 from app.routes import (
     _decode_image_bytes,
+    enforce_upload_count,
     handle_batch_detection,
     handle_detection,
     validate_upload,
@@ -241,6 +242,7 @@ async def detect(
     Returns:
         One annotated detection result per uploaded image.
     """
+    enforce_upload_count(len(files))
     images = []
     for upload in files:
         data = await validate_upload(upload, settings.MAX_FILE_SIZE)
@@ -264,6 +266,7 @@ async def batch_detect(
     Returns:
         The aggregate batch response.
     """
+    enforce_upload_count(len(files))
     images = []
     for upload in files:
         data = await validate_upload(upload, settings.MAX_FILE_SIZE)
