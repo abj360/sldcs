@@ -16,3 +16,4 @@ semantic versioning once a first release is tagged.
 - Settings loader that resolves the production model path from the registry.
 - Tile-based YOLOv5 detection engine and the tiling/stitching/deduplication pipeline.
 - FastAPI service with health, readiness, model-info, class-list, version, single-image detection, and batch detection endpoints.
+- Four-screen web interface (tray, processing, specimen report, instrument info) with the scan-sweep results animation.
