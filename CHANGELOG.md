@@ -13,3 +13,6 @@ semantic versioning once a first release is tagged.
 - Dataset preparation pipeline that produces the flat annotation-ready image and label sets, a manifest, a summary, and an off-tree raw backup.
 - Annotation guide generator, including worked YOLO-format examples, placeholder diagrams, a label-format validator, and a QA checklist.
 - Pretrained YOLOv5s download, SHA-256 verification, metadata sidecar, and load test.
+- Settings loader that resolves the production model path from the registry.
+- Tile-based YOLOv5 detection engine and the tiling/stitching/deduplication pipeline.
+- FastAPI service with health, readiness, model-info, class-list, version, single-image detection, and batch detection endpoints.
