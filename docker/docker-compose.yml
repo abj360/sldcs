@@ -1,0 +1,26 @@
+# SLDCS service definition.
+# Build context is the repository root so the Dockerfile can COPY the whole app.
+services:
+  sldcs:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: sldcs:latest
+    container_name: sldcs
+    ports:
+      - "8000:8000"
+    env_file:
+      - ../.env
+    volumes:
+      # Persist runtime output and let the model be swapped without a rebuild.
+      - ../logs:/app/logs
+      - ../uploads:/app/uploads
+      - ../weights:/app/weights
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

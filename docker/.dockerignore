@@ -1,0 +1,30 @@
+# Keep the build context small and free of secrets and large data.
+.git
+.gitignore
+venv
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+.mypy_cache
+.ipynb_checkpoints
+runs
+
+# Local environment and secrets
+.env
+credentials
+
+# Runtime output (provided as volumes at run time)
+logs/*
+uploads/*
+
+# Dataset payloads are never baked into the image
+data/raw/*
+data/processed/images
+data/processed/labels
+data/processed/*.json
+sldcs_raw_backups
+
+# Dev-only material
+tests
+requirements-dev.txt
