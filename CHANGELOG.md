@@ -5,3 +5,9 @@ All notable changes to SLDCS are recorded here. The format follows
 semantic versioning once a first release is tagged.
 
 ## Unreleased
+
+### Added
+- Project setup script that reproducibly creates runtime directories and registry/dataset skeletons.
+- Google Drive sync script for resumable import of the raw specimen images.
+- Raw dataset validation with a corrupted/duplicate/undersized quality report.
+- Dataset preparation pipeline that produces the flat annotation-ready image and label sets, a manifest, a summary, and an off-tree raw backup.
