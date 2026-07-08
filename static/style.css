@@ -185,7 +185,7 @@ html, body {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.step-num { color: var(--sldcs-teal-dim); font-size: 0.875rem; }
+.step-num { color: var(--sldcs-teal); font-size: 0.875rem; font-weight: 600; }
 .step-name { font-weight: 600; letter-spacing: 0.06em; font-size: 0.875rem; }
 .step-desc { font-size: 0.75rem; }
 
