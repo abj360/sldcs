@@ -17,8 +17,8 @@
 
   --sldcs-shadow-soft: 0 1px 2px rgba(20, 16, 10, 0.04), 0 6px 24px rgba(20, 16, 10, 0.05);
 
-  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
-  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Arial Narrow", Arial, sans-serif;
+  --font-body: "Arial Narrow", Arial, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 
   --radius: 2px;
@@ -63,8 +63,7 @@ html, body {
 .brand {
   margin: 0;
   font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1.15rem;
   line-height: 1;
   color: var(--sldcs-text-primary);
@@ -105,12 +104,12 @@ html, body {
 }
 
 .model-tag {
-  display: flex; flex-direction: column; align-items: flex-end; gap: 2px;
+  display: flex; align-items: center; justify-content: center;
   background: none; border: 1px solid transparent; border-radius: var(--radius);
-  padding: 4px 8px; cursor: pointer; color: var(--sldcs-text-primary);
-  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em;
+  padding: 8px; cursor: pointer; color: var(--sldcs-text-primary);
+  width: 36px; height: 36px;
 }
-.model-tag:hover { border-color: var(--sldcs-hairline); background: var(--sldcs-surface-raised); }
+.model-tag:hover { border-color: var(--sldcs-teal); background: rgba(14, 127, 110, 0.05); }
 
 .main {
   padding: calc(var(--header-h) + var(--gutter)) var(--gutter) var(--gutter);
@@ -146,12 +145,9 @@ html, body {
 .tray.error-flash { border-color: var(--sldcs-amber); }
 .tray.disabled { opacity: 0.4; pointer-events: none; }
 
-.tray-wordmark {
-  font-family: var(--font-display); font-style: italic; font-size: 1.25rem;
-  color: var(--sldcs-text-muted);
-}
+.tray-wordmark { display: none; }
 .tray-instruction { font-size: 1.25rem; margin: 0; }
-.tray-params { font-size: 0.75rem; margin: 0; letter-spacing: 0.04em; }
+.tray-params { display: none; }
 .tray-error { color: var(--sldcs-amber); font-size: 0.875rem; margin: 4px 0 0; }
 
 .reticle {

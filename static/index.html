@@ -17,16 +17,14 @@
   <!-- Persistent shell -->
   <header class="shell" role="banner">
     <div class="shell-left">
-      <span id="status-dot" class="status-dot" title="Model status" aria-live="polite"></span>
       <h1 class="brand">
         <span class="brand-full">Shrimp Larvae Detection and Counting System</span>
         <span class="brand-short" aria-hidden="true">SLDCS</span>
       </h1>
     </div>
     <div class="shell-right">
-      <button id="model-tag" class="model-tag" type="button" aria-label="View instrument info">
-        <span id="model-tag-name" class="mono">PRETRAINED · yolov5s (COCO)</span>
-        <span id="model-tag-conf" class="mono muted">conf ≥ 0.40</span>
+      <button id="model-tag" class="model-tag" type="button" aria-label="View instrument info" title="Instrument status and model info">
+        <img src="/static/model-icon.svg" alt="" width="20" height="20" />
       </button>
     </div>
   </header>
@@ -40,9 +38,7 @@
         <span class="reticle reticle-tr" aria-hidden="true"></span>
         <span class="reticle reticle-bl" aria-hidden="true"></span>
         <span class="reticle reticle-br" aria-hidden="true"></span>
-        <span class="tray-wordmark">SLDCS</span>
         <p class="tray-instruction">Drop specimen images, or select a folder</p>
-        <p id="tray-params" class="mono muted tray-params">640×640 tiles · 64px overlap · conf ≥ 0.40</p>
         <p id="tray-error" class="mono tray-error" role="alert" hidden></p>
         <input id="file-input" type="file" accept="image/jpeg,image/png,image/bmp"
                multiple hidden />

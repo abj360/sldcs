@@ -38,42 +38,28 @@
 
   // ---------------- Startup state ----------------
   async function initInstrumentState() {
-    setStatus("loading");
     try {
       const health = await (await fetch("/health")).json();
       if (!health.model_loaded) {
         setOffline();
         return;
       }
-      setStatus("ready");
       const cfg = await (await fetch("/config")).json();
-      el("tray-params").textContent =
-        `${cfg.tile_size}×${cfg.tile_size} tiles · ${cfg.tile_overlap}px overlap · conf ≥ ${cfg.conf_threshold.toFixed(2)}`;
-      el("model-tag-conf").textContent = `conf ≥ ${cfg.conf_threshold.toFixed(2)}`;
       const info = await (await fetch("/model/info")).json();
-      renderModelTag(info);
+      storeModelInfo(info);
     } catch (err) {
       setOffline();
     }
   }
 
-  function setStatus(state) {
-    const dot = el("status-dot");
-    dot.className = "status-dot " + state;
-  }
-
   function setOffline() {
-    setStatus("offline");
     const tray = el("dropzone");
     tray.classList.add("disabled");
     el("tray-instruction").textContent = "Instrument offline — detection model failed to load.";
   }
 
-  function renderModelTag(info) {
-    const label = info.trained_on_project_data
-      ? `TRAINED · ${info.version}`
-      : `PRETRAINED · yolov5s (COCO)`;
-    el("model-tag-name").textContent = label;
+  function storeModelInfo(info) {
+    window.lastModelInfo = info;
   }
 
   // ---------------- Upload handling ----------------
@@ -393,26 +379,23 @@
   el("model-tag").addEventListener("click", showInfo);
   el("btn-info-back").addEventListener("click", () => showScreen("tray"));
 
-  async function showInfo() {
-    try {
-      const info = await (await fetch("/model/info")).json();
-      const body = el("info-table-body");
-      const rows = [
-        ["Version", info.version],
-        ["Source", info.source],
-        ["Trained on project data", info.trained_on_project_data ? "Yes" : "No"],
-        ["Status", info.status],
-        ["Device", info.device],
-        ["Detectable classes", String(info.class_count)],
-      ];
-      body.innerHTML = rows
-        .map(([k, v]) => `<tr><th>${k}</th><td>${escapeHtml(String(v))}</td></tr>`)
-        .join("");
-      el("info-note").textContent = info.note;
-      showScreen("info");
-    } catch (err) {
-      /* If info is unavailable the instrument is offline; stay on tray. */
-    }
+  function showInfo() {
+    const info = window.lastModelInfo;
+    if (!info) return;
+    const body = el("info-table-body");
+    const rows = [
+      ["Version", info.version],
+      ["Source", info.source],
+      ["Trained on project data", info.trained_on_project_data ? "Yes" : "No"],
+      ["Status", info.status],
+      ["Device", info.device],
+      ["Detectable classes", String(info.class_count)],
+    ];
+    body.innerHTML = rows
+      .map(([k, v]) => `<tr><th>${k}</th><td>${escapeHtml(String(v))}</td></tr>`)
+      .join("");
+    el("info-note").textContent = info.note;
+    showScreen("info");
   }
 
   function escapeHtml(s) {

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .gear { fill: #0E7F6E; }
+    </style>
+  </defs>
+  <!-- Gear/cog icon -->
+  <circle class="gear" cx="12" cy="12" r="3"/>
+  <g class="gear">
+    <rect x="11" y="2" width="2" height="3" rx="1"/>
+    <rect x="11" y="19" width="2" height="3" rx="1"/>
+    <rect x="2" y="11" width="3" height="2" rx="1"/>
+    <rect x="19" y="11" width="3" height="2" rx="1"/>
+    <rect x="4.22" y="4.22" width="2.12" height="2.12" rx="0.7" transform="rotate(45 5.28 5.28)"/>
+    <rect x="17.66" y="17.66" width="2.12" height="2.12" rx="0.7" transform="rotate(45 18.72 18.72)"/>
+    <rect x="17.66" y="4.22" width="2.12" height="2.12" rx="0.7" transform="rotate(-45 18.72 5.28)"/>
+    <rect x="4.22" y="17.66" width="2.12" height="2.12" rx="0.7" transform="rotate(-45 5.28 18.72)"/>
+  </g>
+</svg>

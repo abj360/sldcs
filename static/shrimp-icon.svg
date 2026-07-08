@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .shrimp { fill: #0E7F6E; }
+    </style>
+  </defs>
+  <!-- Stylized shrimp: curved body with antenna and tail -->
+  <path class="shrimp" d="M 6 12 Q 8 10 10 9 Q 12 8 14 8 Q 16 8 17 10 L 18 11 L 17 12 Q 15 13 13 14 L 11 15 L 9 16 L 7 16 Q 6 15 6 14 Z"/>
+  <!-- Antenna -->
+  <path class="shrimp" stroke="#0E7F6E" stroke-width="1" fill="none" d="M 6 12 L 3 8"/>
+  <!-- Tail fan -->
+  <path class="shrimp" d="M 17 12 L 19 11 L 18.5 13 L 19.5 14 L 17.5 14 Z"/>
+  <!-- Eye -->
+  <circle class="shrimp" cx="8" cy="10" r="1"/>
+</svg>
