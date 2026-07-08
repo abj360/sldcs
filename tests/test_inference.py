@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from app.inference import YOLOv5Inference
+from app.inference import ModelInference
 from app.utils import (
     calculate_image_statistics,
     crop_and_tile_image,
@@ -107,13 +107,13 @@ def test_draw_boxes_does_not_mutate_input() -> None:
 
 def test_resolve_device_handles_explicit_and_auto() -> None:
     """Device resolution passes explicit devices through and resolves 'auto'."""
-    assert YOLOv5Inference._resolve_device("cpu") == "cpu"
-    assert YOLOv5Inference._resolve_device("auto") in {"cpu", "cuda:0"}
+    assert ModelInference._resolve_device("cpu") == "cpu"
+    assert ModelInference._resolve_device("auto") in {"cpu", "cuda:0"}
 
 
 def test_postprocess_converts_raw_predictions() -> None:
     """Raw model predictions convert into detection dicts with class names."""
-    engine = object.__new__(YOLOv5Inference)
+    engine = object.__new__(ModelInference)
 
     class _FakeResults:
         """Minimal stand-in for the YOLOv5 results object."""
@@ -130,7 +130,7 @@ def test_postprocess_converts_raw_predictions() -> None:
 
 def test_preprocess_rejects_non_three_channel() -> None:
     """Preprocessing rejects images that are not 3-channel."""
-    engine = object.__new__(YOLOv5Inference)
+    engine = object.__new__(ModelInference)
     grayscale = np.zeros((10, 10), np.uint8)
     try:
         engine.preprocess_image(grayscale)

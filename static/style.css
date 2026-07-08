@@ -255,7 +255,7 @@ html, body {
 .count-block { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
 .count-value {
   font-family: var(--font-display); font-weight: 600; font-size: 4rem; line-height: 1;
-  color: var(--sldcs-coral); font-variant-numeric: tabular-nums;
+  color: var(--sldcs-teal); font-variant-numeric: tabular-nums;
 }
 .count-label { font-size: 0.75rem; letter-spacing: 0.08em; }
 .count-value.count-pop { animation: count-pop 520ms cubic-bezier(0.22, 1, 0.36, 1); }

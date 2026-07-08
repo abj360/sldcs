@@ -2,7 +2,7 @@
 
 """inference.py -- runs the tile-based YOLOv5 detection pipeline.
 
-Defines :class:`YOLOv5Inference`, which loads exactly one YOLOv5 checkpoint on
+Defines :class:`ModelInference`, which loads exactly one YOLOv5 checkpoint on
 construction and runs the full tile-based detection pipeline for the lifetime of
 the process. This is the only module permitted to import ``torch`` or the YOLOv5
 model API; it performs no HTTP work and builds no API responses.
@@ -50,7 +50,7 @@ def _trusted_weights_load() -> Iterator[None]:
         torch.load = original_load
 
 
-class YOLOv5Inference:
+class ModelInference:
     """Tile-based YOLOv5 detector for full-tray specimen images.
 
     Loads one checkpoint at construction and reuses it for every request. Given

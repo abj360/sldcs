@@ -23,7 +23,7 @@ from starlette.concurrency import run_in_threadpool
 
 from app import __version__
 from app.config import PROJECT_ROOT, Settings, get_settings
-from app.inference import YOLOv5Inference
+from app.inference import ModelInference
 from app.models import (
     BatchDetectionResponse,
     DetectionResult,
@@ -53,11 +53,11 @@ app.add_middleware(
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
 
-def get_inference() -> YOLOv5Inference:
+def get_inference() -> ModelInference:
     """Return the loaded detection engine or fail with a 503.
 
     Returns:
-        The process-wide :class:`YOLOv5Inference` instance.
+        The process-wide :class:`ModelInference` instance.
 
     Raises:
         HTTPException: 503 if the model failed to load at startup.
@@ -91,7 +91,7 @@ def _startup() -> None:
     logging.basicConfig(level=getattr(logging, settings.LOG_LEVEL, logging.INFO))
     app.state.settings = settings
     try:
-        app.state.inference = YOLOv5Inference(**settings.get_model_config())
+        app.state.inference = ModelInference(**settings.get_model_config())
         LOGGER.info("Detection model loaded on %s.", app.state.inference.device)
     except Exception as error:  # noqa: BLE001 - degrade to offline, do not crash boot
         app.state.inference = None
@@ -146,7 +146,7 @@ def ready() -> JSONResponse:
 
 
 @app.get("/model/info", response_model=ModelInfoResponse)
-def model_info(engine: YOLOv5Inference = Depends(get_inference)) -> ModelInfoResponse:
+def model_info(engine: ModelInference = Depends(get_inference)) -> ModelInfoResponse:
     """Return metadata describing the active production model.
 
     Reproduces the registry entry for the current production model and augments
@@ -185,7 +185,7 @@ def model_info(engine: YOLOv5Inference = Depends(get_inference)) -> ModelInfoRes
 
 
 @app.get("/model/classes", response_model=list[str])
-def model_classes(engine: YOLOv5Inference = Depends(get_inference)) -> list[str]:
+def model_classes(engine: ModelInference = Depends(get_inference)) -> list[str]:
     """Return the class names the loaded model can detect.
 
     Args:
@@ -229,7 +229,7 @@ def runtime_config(settings: Settings = Depends(get_active_settings)) -> JSONRes
 @app.post("/detect", response_model=list[DetectionResult])
 async def detect(
     files: list[UploadFile] = File(...),
-    engine: YOLOv5Inference = Depends(get_inference),
+    engine: ModelInference = Depends(get_inference),
     settings: Settings = Depends(get_active_settings),
 ) -> list[DetectionResult]:
     """Detect and count larvae in one or more uploaded images (annotated).
@@ -253,7 +253,7 @@ async def detect(
 @app.post("/batch-detect", response_model=BatchDetectionResponse)
 async def batch_detect(
     files: list[UploadFile] = File(...),
-    engine: YOLOv5Inference = Depends(get_inference),
+    engine: ModelInference = Depends(get_inference),
     settings: Settings = Depends(get_active_settings),
 ) -> BatchDetectionResponse:
     """Detect and count larvae across a batch, returning counts only.

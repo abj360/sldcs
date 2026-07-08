@@ -23,7 +23,7 @@ FIXTURES_DIR = Path(__file__).resolve().parent / "fixtures"
 
 
 class StubInference:
-    """A drop-in replacement for :class:`YOLOv5Inference` used in tests.
+    """A drop-in replacement for :class:`ModelInference` used in tests.
 
     Returns deterministic detections without loading any weights, so API and
     route tests are fast and require no GPU. It mirrors the public surface the

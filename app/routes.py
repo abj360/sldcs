@@ -4,7 +4,7 @@
 
 Contains the functions that validate uploads and run the detection pipeline to
 build API responses. These handlers own request validation and response
-assembly; they delegate all model work to :class:`app.inference.YOLOv5Inference`
+assembly; they delegate all model work to :class:`app.inference.ModelInference`
 and all image maths to :mod:`app.utils`, and they never import torch directly.
 """
 
@@ -18,7 +18,7 @@ import numpy as np
 from fastapi import HTTPException, UploadFile, status
 
 from app.config import Settings
-from app.inference import YOLOv5Inference
+from app.inference import ModelInference
 from app.models import (
     BatchDetectionResponse,
     BatchImageCount,
@@ -153,7 +153,7 @@ def _detections_to_boxes(detections: list[dict]) -> list[DetectionBox]:
 def _build_detection_result(
     filename: str | None,
     image: np.ndarray,
-    inference: YOLOv5Inference,
+    inference: ModelInference,
     encode_annotated: bool,
 ) -> DetectionResult:
     """Run the pipeline on one image and assemble its :class:`DetectionResult`.
@@ -196,7 +196,7 @@ def _build_detection_result(
 
 def handle_detection(
     images: list[tuple[str | None, np.ndarray]],
-    inference: YOLOv5Inference,
+    inference: ModelInference,
     settings: Settings,
 ) -> list[DetectionResult]:
     """Run the full five-stage pipeline on one or more images, with annotations.
@@ -218,7 +218,7 @@ def handle_detection(
 
 def handle_batch_detection(
     images: list[tuple[str | None, np.ndarray]],
-    inference: YOLOv5Inference,
+    inference: ModelInference,
     settings: Settings,
 ) -> BatchDetectionResponse:
     """Run the pipeline on a batch, returning counts only (no image encoding).
