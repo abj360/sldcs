@@ -13,6 +13,9 @@ torchvision==0.27.1
 
 # --- YOLOv5 model API and its declared dependencies ---
 yolov5==7.0.13
+# yolov5 7.0.13 imports huggingface_hub.utils._errors, which was removed in
+# huggingface_hub >= 0.26; pin to the last release that still provides it.
+huggingface_hub==0.24.6
 opencv-python==4.10.0.84
 numpy==1.26.4
 matplotlib==3.9.2

@@ -12,3 +12,4 @@ semantic versioning once a first release is tagged.
 - Raw dataset validation with a corrupted/duplicate/undersized quality report.
 - Dataset preparation pipeline that produces the flat annotation-ready image and label sets, a manifest, a summary, and an off-tree raw backup.
 - Annotation guide generator, including worked YOLO-format examples, placeholder diagrams, a label-format validator, and a QA checklist.
+- Pretrained YOLOv5s download, SHA-256 verification, metadata sidecar, and load test.
