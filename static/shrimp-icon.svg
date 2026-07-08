@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
   <defs>
     <style>
-      .shrimp-body { fill: #0E7F6E; }
-      .shrimp-detail { fill: #0E7F6E; opacity: 0.8; }
+      .shrimp-body { fill: #C9481B; }
+      .shrimp-detail { fill: #C9481B; opacity: 0.8; }
     </style>
   </defs>
 
@@ -19,21 +19,21 @@
   <circle class="shrimp-body" cx="13.2" cy="6.3" r="0.4"/>
 
   <!-- Antennae -->
-  <path class="shrimp-detail" stroke="#0E7F6E" stroke-width="0.8" fill="none" stroke-linecap="round"
+  <path class="shrimp-detail" stroke="#C9481B" stroke-width="0.8" fill="none" stroke-linecap="round"
         d="M 11 6.5 Q 9 4 8 2"/>
-  <path class="shrimp-detail" stroke="#0E7F6E" stroke-width="0.8" fill="none" stroke-linecap="round"
+  <path class="shrimp-detail" stroke="#C9481B" stroke-width="0.8" fill="none" stroke-linecap="round"
         d="M 13 6.5 Q 15 4 16 2"/>
 
   <!-- Walking legs (left side) -->
-  <path class="shrimp-detail" stroke="#0E7F6E" stroke-width="0.6" fill="none" stroke-linecap="round"
+  <path class="shrimp-detail" stroke="#C9481B" stroke-width="0.6" fill="none" stroke-linecap="round"
         d="M 9.5 12 L 6 13"/>
-  <path class="shrimp-detail" stroke="#0E7F6E" stroke-width="0.6" fill="none" stroke-linecap="round"
+  <path class="shrimp-detail" stroke="#C9481B" stroke-width="0.6" fill="none" stroke-linecap="round"
         d="M 9 15 L 5.5 16.5"/>
 
   <!-- Walking legs (right side) -->
-  <path class="shrimp-detail" stroke="#0E7F6E" stroke-width="0.6" fill="none" stroke-linecap="round"
+  <path class="shrimp-detail" stroke="#C9481B" stroke-width="0.6" fill="none" stroke-linecap="round"
         d="M 14.5 12 L 18 13"/>
-  <path class="shrimp-detail" stroke="#0E7F6E" stroke-width="0.6" fill="none" stroke-linecap="round"
+  <path class="shrimp-detail" stroke="#C9481B" stroke-width="0.6" fill="none" stroke-linecap="round"
         d="M 15 15 L 18.5 16.5"/>
 
   <!-- Tail fan -->
