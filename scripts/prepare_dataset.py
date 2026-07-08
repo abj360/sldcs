@@ -1,4 +1,6 @@
-"""Prepare the raw specimen images for annotation.
+#!/usr/bin/env python3
+
+"""prepare_dataset.py -- prepares the raw images for annotation.
 
 This script takes the validated raw images and produces the working copy the
 annotation tool operates on: a flat directory of images, a matching set of empty

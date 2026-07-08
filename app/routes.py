@@ -1,4 +1,6 @@
-"""HTTP request handlers for the SLDCS API.
+#!/usr/bin/env python3
+
+"""routes.py -- handles upload validation and detection requests.
 
 Contains the functions that validate uploads and run the detection pipeline to
 build API responses. These handlers own request validation and response

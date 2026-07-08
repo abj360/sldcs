@@ -1,4 +1,6 @@
-"""Quality-check the raw specimen images and report problems.
+#!/usr/bin/env python3
+
+"""validate_data.py -- checks the raw specimen images for quality defects.
 
 This script inspects the files in ``data/raw`` for three classes of defect that
 would silently corrupt training or inference: unreadable/corrupted images,

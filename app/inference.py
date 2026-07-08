@@ -1,4 +1,6 @@
-"""YOLOv5 detection engine for SLDCS.
+#!/usr/bin/env python3
+
+"""inference.py -- runs the tile-based YOLOv5 detection pipeline.
 
 Defines :class:`YOLOv5Inference`, which loads exactly one YOLOv5 checkpoint on
 construction and runs the full tile-based detection pipeline for the lifetime of

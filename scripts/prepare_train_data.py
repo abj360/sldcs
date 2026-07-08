@@ -1,4 +1,6 @@
-"""Split the annotated dataset into train/val/test partitions.
+#!/usr/bin/env python3
+
+"""prepare_train_data.py -- splits the annotated dataset into train/val/test partitions.
 
 Once annotation is complete, this script partitions the flat image and label
 sets into the train/val/test subdirectories the dataset descriptor points at,

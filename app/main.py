@@ -1,4 +1,6 @@
-"""FastAPI application entry point for SLDCS.
+#!/usr/bin/env python3
+
+"""main.py -- assembles and exposes the FastAPI application.
 
 Wires the HTTP application together: instantiates the app, configures CORS,
 mounts the static UI, constructs the single shared detection engine at startup,

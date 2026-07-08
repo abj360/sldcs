@@ -1,4 +1,6 @@
-"""Import the raw specimen images from Google Drive, resumably.
+#!/usr/bin/env python3
+
+"""google_drive_sync.py -- imports the raw specimen images from Google Drive.
 
 This script is the single automated entry point for pulling the project's raw
 specimen photographs out of the shared Google Drive folder into ``data/raw``. It

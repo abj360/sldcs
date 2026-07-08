@@ -1,4 +1,6 @@
-"""Tests for the data-preparation and validation scripts.
+#!/usr/bin/env python3
+
+"""test_data_loading.py -- tests the data-preparation and validation scripts.
 
 Uses small synthetic images written to temporary directories to confirm the
 raw-data quality checks, the annotation-readiness preparation steps, and the

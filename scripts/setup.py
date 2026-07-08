@@ -1,4 +1,6 @@
-"""Bootstrap the SLDCS runtime scaffolding from a fresh checkout.
+#!/usr/bin/env python3
+
+"""setup.py -- bootstraps the SLDCS runtime scaffolding.
 
 This script recreates every working directory the application and pipeline
 expect and writes skeleton versions of the two generated configuration files

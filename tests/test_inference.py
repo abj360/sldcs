@@ -1,4 +1,6 @@
-"""Tests for the detection pipeline maths and inference helpers.
+#!/usr/bin/env python3
+
+"""test_inference.py -- tests the detection pipeline maths and inference helpers.
 
 Covers the pure tiling/stitching/deduplication utilities and the parts of the
 inference engine that can be exercised without loading real model weights

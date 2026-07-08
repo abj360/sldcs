@@ -1,4 +1,6 @@
-"""Download and verify the stock YOLOv5s COCO-pretrained checkpoint.
+#!/usr/bin/env python3
+
+"""download_pretrained.py -- downloads and verifies the pretrained YOLOv5s checkpoint.
 
 This script fetches the official ``yolov5s.pt`` asset from the Ultralytics
 GitHub release (by direct HTTPS request, so the exact file and its checksum are

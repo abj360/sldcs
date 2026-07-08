@@ -1,4 +1,6 @@
-"""Pydantic request and response schemas for the SLDCS API.
+#!/usr/bin/env python3
+
+"""models.py -- defines the API request and response schemas.
 
 This module defines the data shapes exchanged over the HTTP API and nothing
 else: it contains no business logic, no I/O, and no detection code. Every schema

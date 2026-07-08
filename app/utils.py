@@ -1,4 +1,6 @@
-"""Pure image-pipeline helpers for SLDCS.
+#!/usr/bin/env python3
+
+"""utils.py -- provides the tiling, stitching, and deduplication image helpers.
 
 This module implements the tiling, stitching, and duplicate-removal stages of the
 detection pipeline as pure functions, plus supporting helpers for drawing

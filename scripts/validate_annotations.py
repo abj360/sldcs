@@ -1,4 +1,6 @@
-"""Validate completed YOLO annotations against the images they label.
+#!/usr/bin/env python3
+
+"""validate_annotations.py -- validates completed YOLO annotations against their images.
 
 After a human has annotated the specimen images, this script checks that every
 label file is syntactically valid YOLO, that its boxes lie within the image, and

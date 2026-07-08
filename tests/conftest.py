@@ -1,4 +1,6 @@
-"""Shared pytest fixtures for the SLDCS test suite.
+#!/usr/bin/env python3
+
+"""conftest.py -- provides shared pytest fixtures for the test suite.
 
 Provides a stubbed inference engine so the API and pipeline can be tested
 without loading real model weights or a GPU, a test client wired to that stub,

@@ -1,4 +1,6 @@
-"""Top-level entry point that launches the SLDCS web service.
+#!/usr/bin/env python3
+
+"""main.py -- launches the SLDCS web service.
 
 Configures logging from ``config/logging.yaml``, loads and validates the runtime
 settings, and starts the uvicorn server bound to the configured host and port.

@@ -1,4 +1,6 @@
-"""Runtime configuration for the SLDCS application.
+#!/usr/bin/env python3
+
+"""config.py -- loads and validates the SLDCS runtime configuration.
 
 Defines the :class:`Settings` class, which loads every runtime-tunable value
 from the settings YAML, environment variables, and the model registry, validates

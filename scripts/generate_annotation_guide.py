@@ -1,4 +1,6 @@
-"""Generate the shrimp larvae annotation guide and its example images.
+#!/usr/bin/env python3
+
+"""generate_annotation_guide.py -- generates the annotation guide and its examples.
 
 This script assembles ``docs/ANNOTATION_GUIDE.md`` — the single reference a human
 annotator uses to label the specimen images — together with three synthetic

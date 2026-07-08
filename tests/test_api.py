@@ -1,4 +1,6 @@
-"""API-level tests for the SLDCS FastAPI application.
+#!/usr/bin/env python3
+
+"""test_api.py -- tests the SLDCS API endpoints.
 
 These tests exercise every endpoint through the test client using the stubbed
 inference engine, so they validate request handling, validation, and response
