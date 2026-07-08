@@ -1,0 +1,20 @@
+# SLDCS training configuration — v1 baseline.
+# A straightforward transfer-learning run from the COCO-pretrained YOLOv5s,
+# with default augmentation, to establish a baseline mAP for larvae detection.
+
+version: v1_baseline
+description: Baseline transfer learning from COCO-pretrained YOLOv5s.
+base_weights: weights/pretrained/yolov5s.pt
+dataset: data/dataset.yaml
+output_dir: weights/v1_baseline
+
+epochs: 100
+batch_size: 16
+img_size: 640
+device: auto
+workers: 8
+patience: 25
+
+optimizer: SGD
+lr0: 0.01
+augment: false

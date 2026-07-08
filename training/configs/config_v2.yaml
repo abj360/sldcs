@@ -1,0 +1,21 @@
+# SLDCS training configuration — v2 improved.
+# Adds stronger augmentation and a longer schedule with a cosine learning-rate
+# decay to improve recall on small, densely packed larvae over the v1 baseline.
+
+version: v2_improved
+description: Improved run with stronger augmentation and cosine LR schedule.
+base_weights: weights/pretrained/yolov5s.pt
+dataset: data/dataset.yaml
+output_dir: weights/v2_improved
+
+epochs: 200
+batch_size: 16
+img_size: 768
+device: auto
+workers: 8
+patience: 40
+
+optimizer: SGD
+lr0: 0.01
+cos_lr: true
+augment: true

@@ -1,0 +1,22 @@
+# SLDCS training configuration — v3 final.
+# The candidate production configuration: the improved schedule tuned at the
+# native tile resolution with a larger batch, intended to produce the checkpoint
+# selected for production by mAP@0.5.
+
+version: v3_final
+description: Final candidate at tile resolution with tuned schedule.
+base_weights: weights/pretrained/yolov5s.pt
+dataset: data/dataset.yaml
+output_dir: weights/v3_final
+
+epochs: 300
+batch_size: 24
+img_size: 640
+device: auto
+workers: 8
+patience: 50
+
+optimizer: SGD
+lr0: 0.01
+cos_lr: true
+augment: true
