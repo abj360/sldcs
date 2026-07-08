@@ -1,6 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-  <rect width="16" height="16" rx="2" fill="#F7F5F0"/>
-
   <!-- Shrimp body -->
   <ellipse cx="8" cy="6.5" rx="2.5" ry="2" fill="#C9481B"/>
   <ellipse cx="8" cy="9" rx="2.2" ry="1.8" fill="#C9481B"/>
