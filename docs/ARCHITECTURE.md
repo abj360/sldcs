@@ -9,7 +9,7 @@ five-stage pipeline. This document describes how the pieces fit together.
 ![SLDCS architecture block diagram](architecture.svg)
 
 The client sends an image to the FastAPI layer, which hands it to the single
-`YOLOv5Inference` engine. The engine drives the tiling/stitching/deduplication
+`ModelInference` engine. The engine drives the tiling/stitching/deduplication
 helpers in `utils.py` and returns a result the API serializes back to the
 client. `weights/model_registry.json` is a read-only configuration input: it
 names the production checkpoint the engine loads, and nothing else in the system
@@ -21,7 +21,7 @@ Every detection request runs these stages in order:
 
 1. **Tile** — `crop_and_tile_image` segments the image into overlapping
    640×640 tiles (64px overlap) so small larvae are never lost to downscaling.
-2. **Detect** — `YOLOv5Inference` runs the model on each tile independently.
+2. **Detect** — `ModelInference` runs the model on each tile independently.
 3. **Stitch** — `stitch_results` maps each tile's detections back into the
    original image's coordinate space using the tile origins.
 4. **Deduplicate** — `remove_duplicate_detections` reconciles the same larva
@@ -36,7 +36,7 @@ Every detection request runs these stages in order:
 |---|---|
 | `app/main.py` | FastAPI app assembly, routing, startup/shutdown, static mount. |
 | `app/routes.py` | Upload validation and response assembly for the endpoints. |
-| `app/inference.py` | The one class that loads and runs the model (`YOLOv5Inference`); the only module that imports torch or the YOLOv5 API. |
+| `app/inference.py` | The one class that loads and runs the model (`ModelInference`); the only module that imports torch or the YOLOv5 API. |
 | `app/utils.py` | Pure tiling/stitching/deduplication maths plus drawing, statistics, and base64 helpers. |
 | `app/models.py` | Pydantic request/response schemas. |
 | `app/config.py` | `Settings`: loads and validates configuration; resolves the model path from the registry. |
@@ -59,7 +59,7 @@ as `current_production`:
 
 1. A client uploads one or more images to `POST /detect` (or `POST /batch-detect`).
 2. `routes.validate_upload` checks each file's type and size.
-3. Decoded images are handed to `YOLOv5Inference.detect`, which runs the
+3. Decoded images are handed to `ModelInference.detect`, which runs the
    tile→detect→stitch→dedupe stages off the event loop in a worker thread.
 4. `routes` assembles a `DetectionResult` (count, detections, statistics, and —
    for `/detect` — a base64 annotated image) and returns it.

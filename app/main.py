@@ -167,7 +167,7 @@ def model_info(engine: ModelInference = Depends(get_inference)) -> ModelInfoResp
     metadata = engine.get_metadata()
     trained = bool(entry.get("trained_on_project_data", False))
     note = (
-        "This is the stock COCO-pretrained YOLOv5s checkpoint. No model has been "
+        "This is the stock COCO-pretrained model checkpoint. No model has been "
         "trained on project specimen data yet; no project mAP is available."
         if not trained
         else "This model was trained on annotated SLDCS specimen data."
