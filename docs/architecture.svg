@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="340" viewBox="0 0 1040 340" font-family="'IBM Plex Mono', ui-monospace, monospace">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2BE1CB"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="340" fill="#0B1620"/>
+
+  <!-- Pipeline blocks -->
+  <g>
+    <rect x="10"  y="40" width="170" height="80" rx="2" fill="#10222E" stroke="#20404D"/>
+    <text x="95"  y="85" fill="#EAF4F2" font-size="14" text-anchor="middle">Client (UI)</text>
+
+    <rect x="210" y="40" width="170" height="80" rx="2" fill="#10222E" stroke="#20404D"/>
+    <text x="295" y="85" fill="#EAF4F2" font-size="14" text-anchor="middle">FastAPI (app/)</text>
+
+    <rect x="410" y="40" width="170" height="80" rx="2" fill="#10222E" stroke="#20404D"/>
+    <text x="495" y="85" fill="#EAF4F2" font-size="14" text-anchor="middle">YOLOv5Inference</text>
+
+    <rect x="610" y="40" width="210" height="80" rx="2" fill="#10222E" stroke="#20404D"/>
+    <text x="715" y="80" fill="#EAF4F2" font-size="13" text-anchor="middle">Tiling + Stitch + Dedup</text>
+    <text x="715" y="98" fill="#7FA3AC" font-size="12" text-anchor="middle">(utils.py)</text>
+
+    <rect x="850" y="40" width="170" height="80" rx="2" fill="#10222E" stroke="#20404D"/>
+    <text x="935" y="85" fill="#EAF4F2" font-size="14" text-anchor="middle">Response</text>
+  </g>
+
+  <!-- Forward arrows -->
+  <g stroke="#2BE1CB" stroke-width="2" marker-end="url(#arrow)">
+    <line x1="180" y1="80" x2="208" y2="80"/>
+    <line x1="380" y1="80" x2="408" y2="80"/>
+    <line x1="580" y1="80" x2="608" y2="80"/>
+    <line x1="820" y1="80" x2="848" y2="80"/>
+  </g>
+
+  <!-- Read-only configuration dependency -->
+  <rect x="360" y="250" width="270" height="56" rx="2" fill="#10222E" stroke="#20404D"/>
+  <text x="495" y="283" fill="#7FA3AC" font-size="13" text-anchor="middle">weights/model_registry.json</text>
+  <line x1="495" y1="250" x2="495" y2="122" stroke="#20404D" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
+  <text x="505" y="200" fill="#7FA3AC" font-size="11">read-only config</text>
+</svg>
