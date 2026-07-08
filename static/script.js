@@ -226,8 +226,26 @@
     });
   }
 
+  function animateCount(node, target) {
+    // Tally the hero count up from zero, like a settling instrument readout.
+    if (reducedMotion) { node.textContent = String(target); return; }
+    const duration = 650;
+    const start = performance.now();
+    node.classList.remove("count-pop");
+    void node.offsetWidth;
+    node.classList.add("count-pop");
+    function tick(now) {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      node.textContent = String(Math.round(target * eased));
+      if (t < 1) requestAnimationFrame(tick);
+      else node.textContent = String(target);
+    }
+    requestAnimationFrame(tick);
+  }
+
   function renderSingle(result) {
-    el("count-value").textContent = String(result.larvae_count);
+    animateCount(el("count-value"), result.larvae_count);
     el("r-avgconf").textContent = result.average_confidence.toFixed(3);
     el("r-time").textContent = `${Math.round(result.processing_time_ms)} ms`;
     el("r-tiles").textContent = String(result.tiles_scanned);

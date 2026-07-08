@@ -56,16 +56,50 @@ html, body {
   border-bottom: 1px solid var(--sldcs-hairline);
   z-index: 100;
 }
-.shell-left { display: flex; align-items: center; gap: 12px; }
-.wordmark { display: block; height: 32px; }
+.shell-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.brand {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.15rem;
+  line-height: 1;
+  color: var(--sldcs-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  animation: brand-in 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.brand-short { display: none; }
+
 .status-dot {
+  flex: none;
   width: 10px; height: 10px; border-radius: 50%;
   background: var(--sldcs-amber);
   box-shadow: 0 0 6px currentColor;
 }
-.status-dot.ready { background: var(--sldcs-teal); color: var(--sldcs-teal); }
-.status-dot.loading { background: var(--sldcs-amber); color: var(--sldcs-amber); }
+.status-dot.ready {
+  background: var(--sldcs-teal); color: var(--sldcs-teal);
+  animation: dot-breathe 2.6s ease-in-out infinite;
+}
+.status-dot.loading {
+  background: var(--sldcs-amber); color: var(--sldcs-amber);
+  animation: dot-pulse 1s ease-in-out infinite;
+}
 .status-dot.offline { background: var(--sldcs-coral); color: var(--sldcs-coral); }
+
+@keyframes brand-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes dot-breathe {
+  0%, 100% { box-shadow: 0 0 4px currentColor; opacity: 0.85; }
+  50%      { box-shadow: 0 0 10px currentColor; opacity: 1; }
+}
+@keyframes dot-pulse {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 1; }
+}
 
 .model-tag {
   display: flex; flex-direction: column; align-items: flex-end; gap: 2px;
@@ -82,6 +116,12 @@ html, body {
 }
 
 .screen[hidden] { display: none; }
+.screen { animation: screen-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes screen-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
 /* ---------- Screen 1 — Tray ---------- */
 .screen-tray { display: flex; flex-direction: column; gap: var(--gutter); }
@@ -131,7 +171,20 @@ html, body {
   list-style: none; margin: 0; padding: 16px 0 0; border-top: 1px solid var(--sldcs-hairline);
   display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px;
 }
-.process-strip li { display: flex; flex-direction: column; gap: 4px; }
+.process-strip li {
+  display: flex; flex-direction: column; gap: 4px;
+  animation: fade-rise 500ms ease both;
+}
+.process-strip li:nth-child(1) { animation-delay: 120ms; }
+.process-strip li:nth-child(2) { animation-delay: 200ms; }
+.process-strip li:nth-child(3) { animation-delay: 280ms; }
+.process-strip li:nth-child(4) { animation-delay: 360ms; }
+.process-strip li:nth-child(5) { animation-delay: 440ms; }
+
+@keyframes fade-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 .step-num { color: var(--sldcs-teal-dim); font-size: 0.875rem; }
 .step-name { font-weight: 600; letter-spacing: 0.06em; font-size: 0.875rem; }
 .step-desc { font-size: 0.75rem; }
@@ -205,6 +258,11 @@ html, body {
   color: var(--sldcs-coral); font-variant-numeric: tabular-nums;
 }
 .count-label { font-size: 0.75rem; letter-spacing: 0.08em; }
+.count-value.count-pop { animation: count-pop 520ms cubic-bezier(0.22, 1, 0.36, 1); }
+@keyframes count-pop {
+  from { transform: scale(0.94); opacity: 0.55; }
+  to   { transform: scale(1); opacity: 1; }
+}
 
 .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
@@ -282,10 +340,16 @@ html, body {
   .process-strip { grid-template-columns: 1fr; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
   .model-tag { font-size: 0.65rem; }
+  .brand { font-size: 0.95rem; }
+  .brand-full { display: none; }
+  .brand-short { display: inline; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .scan-line.sweeping { animation: none; opacity: 0; }
   .det-box.materialize { animation: none; }
   .tray, .reticle, #header-progress { transition: none; }
+  .screen, .brand, .status-dot, .process-strip li, .count-value {
+    animation: none !important;
+  }
 }
