@@ -1,0 +1,33 @@
+# SLDCS runtime configuration.
+# These are the tunable defaults; individual values can be overridden per
+# deployment through environment variables (see .env.example). The active model
+# path is NOT set here — it is resolved from weights/model_registry.json.
+
+# --- HTTP server ---
+HOST: 0.0.0.0
+PORT: 8000
+DEBUG: false
+
+# --- Detection ---
+# Minimum confidence for a detection to be kept (0.0-1.0).
+CONF_THRESHOLD: 0.40
+# Non-maximum-suppression IoU applied within each tile during inference.
+IOU_THRESHOLD: 0.45
+# Compute device: "auto" (CUDA if available, else CPU), "cpu", or e.g. "cuda:0".
+DEVICE: auto
+
+# --- Tiling pipeline ---
+# Square tile edge in pixels and the overlap between adjacent tiles in pixels.
+TILE_SIZE: 640
+TILE_OVERLAP: 64
+# IoU above which two detections from overlapping tiles are treated as the same
+# animal and merged during duplicate removal.
+DEDUP_IOU_THRESHOLD: 0.50
+
+# --- Uploads ---
+# Maximum accepted upload size in bytes (50 MB).
+MAX_FILE_SIZE: 52428800
+
+# --- Logging ---
+LOG_LEVEL: INFO
+LOG_FILE: logs/sldcs.log
