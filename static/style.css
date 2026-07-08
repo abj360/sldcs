@@ -1,18 +1,21 @@
-/* SLDCS visual identity — laboratory instrumentation, dark and low-glare.
-   All color, type, and spacing decisions trace to the brand system: abyss
-   surface, one living teal accent, coral rationed to the single primary count. */
+/* SLDCS visual identity — luxury light: warm ivory canvas, near-black serif
+   display, one deep-teal accent, and coral rationed to the single primary
+   count. Fine hairlines, soft shadows, and generous whitespace throughout. */
 
 :root {
-  --sldcs-abyss: #0B1620;
-  --sldcs-surface: #10222E;
-  --sldcs-surface-raised: #16303F;
-  --sldcs-hairline: #20404D;
-  --sldcs-text-primary: #EAF4F2;
-  --sldcs-text-muted: #7FA3AC;
-  --sldcs-teal: #2BE1CB;
-  --sldcs-teal-dim: #1B7A6F;
-  --sldcs-coral: #FF6E52;
-  --sldcs-amber: #F2B84B;
+  /* Luxury light theme: warm ivory canvas, pure-white cards, near-black text. */
+  --sldcs-abyss: #F7F5F0;
+  --sldcs-surface: #FFFFFF;
+  --sldcs-surface-raised: #FFFFFF;
+  --sldcs-hairline: #E3DED3;
+  --sldcs-text-primary: #16130F;
+  --sldcs-text-muted: #726B5E;
+  --sldcs-teal: #0E7F6E;
+  --sldcs-teal-dim: #8FBFB6;
+  --sldcs-coral: #C9481B;
+  --sldcs-amber: #9A6B12;
+
+  --sldcs-shadow-soft: 0 1px 2px rgba(20, 16, 10, 0.04), 0 6px 24px rgba(20, 16, 10, 0.05);
 
   --font-display: "Newsreader", Georgia, "Times New Roman", serif;
   --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -138,7 +141,7 @@ html, body {
 }
 .tray.dragover {
   border: 1px solid var(--sldcs-teal);
-  background: rgba(43, 225, 203, 0.02);
+  background: rgba(14, 127, 110, 0.06);
 }
 .tray.error-flash { border-color: var(--sldcs-amber); }
 .tray.disabled { opacity: 0.4; pointer-events: none; }
@@ -207,6 +210,7 @@ html, body {
 .image-stage {
   position: relative; overflow: hidden; border: 1px solid var(--sldcs-hairline);
   border-radius: var(--radius); background: var(--sldcs-surface);
+  box-shadow: var(--sldcs-shadow-soft);
 }
 .result-image { display: block; width: 100%; height: auto; transform-origin: top left; }
 .box-layer { position: absolute; inset: 0; pointer-events: none; }
@@ -275,6 +279,7 @@ html, body {
 .detection-list {
   list-style: none; margin: 0; padding: 0; max-height: 260px; overflow-y: auto;
   border: 1px solid var(--sldcs-hairline); border-radius: var(--radius);
+  box-shadow: var(--sldcs-shadow-soft);
 }
 .detection-list li {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
@@ -295,7 +300,7 @@ html, body {
   border: 1px solid var(--sldcs-teal); border-radius: var(--radius);
   padding: 8px 14px; cursor: pointer; font-size: 0.8rem; letter-spacing: 0.04em;
 }
-.btn-primary:hover { background: rgba(43, 225, 203, 0.06); }
+.btn-primary:hover { background: rgba(14, 127, 110, 0.07); }
 .btn-quiet {
   background: none; border: none; color: var(--sldcs-text-muted);
   cursor: pointer; font-family: var(--font-body); font-size: 0.875rem;
