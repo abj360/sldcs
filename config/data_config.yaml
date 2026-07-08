@@ -1,0 +1,10 @@
+# Raw dataset quality-control thresholds.
+# This file is the single source of truth for these values; no script hardcodes
+# them. Sizes are [width, height] in pixels.
+
+MIN_IMAGE_SIZE: [320, 320]
+MAX_IMAGE_SIZE: [4096, 4096]
+ALLOWED_FORMATS: [jpg, jpeg, png, bmp]
+DOWNLOAD_CHUNK_SIZE_MB: 5
+VALIDATION_ENABLED: true
+BACKUP_ENABLED: true
