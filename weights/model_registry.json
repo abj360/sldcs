@@ -1,5 +1,13 @@
 {
-  "models": [],
-  "current_production": null,
+  "models": [
+    {
+      "version": "pretrained_yolov5s",
+      "source": "Ultralytics official release, COCO-pretrained",
+      "trained_on_project_data": false,
+      "status": "current_production_placeholder",
+      "path": "weights/pretrained/yolov5s.pt"
+    }
+  ],
+  "current_production": "pretrained_yolov5s",
   "last_updated": "2026-07-08"
 }
