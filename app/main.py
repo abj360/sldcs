@@ -204,6 +204,25 @@ def version() -> JSONResponse:
     return JSONResponse(content={"version": __version__})
 
 
+@app.get("/config")
+def runtime_config(settings: Settings = Depends(get_active_settings)) -> JSONResponse:
+    """Return the live tiling and confidence parameters for the UI.
+
+    Args:
+        settings: Active settings (injected).
+
+    Returns:
+        A JSON object with the confidence threshold, tile size, and tile overlap.
+    """
+    return JSONResponse(
+        content={
+            "conf_threshold": settings.CONF_THRESHOLD,
+            "tile_size": settings.TILE_SIZE,
+            "tile_overlap": settings.TILE_OVERLAP,
+        }
+    )
+
+
 @app.post("/detect", response_model=list[DetectionResult])
 async def detect(
     files: list[UploadFile] = File(...),
