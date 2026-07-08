@@ -1,0 +1,37 @@
+# SLDCS production dependencies
+# University of Arkansas at Pine Bluff — Aquaculture Research Program
+#
+# GPU note: torch/torchvision below are the CUDA 13.0 aarch64 (sbsa) builds used
+# on the project's NVIDIA GB10 hardware. Install them from the PyTorch CUDA 13.0
+# wheel index, e.g.:
+#   pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu130
+# On a CPU-only machine, install the matching CPU wheels instead (see docs/SETUP.md).
+
+# --- Deep learning runtime ---
+torch==2.12.1
+torchvision==0.27.1
+
+# --- YOLOv5 model API and its declared dependencies ---
+yolov5==7.0.13
+opencv-python==4.10.0.84
+numpy==1.26.4
+matplotlib==3.9.2
+Pillow==10.4.0
+PyYAML==6.0.1
+requests==2.32.3
+scipy==1.13.1
+tqdm==4.66.5
+pandas==2.2.2
+seaborn==0.13.2
+
+# --- Web application ---
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+pydantic==2.8.2
+python-multipart==0.0.9
+
+# --- Raw specimen import (scripts/google_drive_sync.py) ---
+google-api-python-client==2.137.0
+google-auth==2.32.0
+google-auth-httplib2==0.2.0
+google-auth-oauthlib==1.2.1
