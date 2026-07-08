@@ -66,7 +66,9 @@
   const dropzone = el("dropzone");
   const fileInput = el("file-input");
 
+  const uploadBtn = el("upload-btn");
   dropzone.addEventListener("click", () => fileInput.click());
+  uploadBtn.addEventListener("click", (e) => { e.stopPropagation(); fileInput.click(); });
   dropzone.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileInput.click(); }
   });

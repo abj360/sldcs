@@ -139,33 +139,6 @@ html, body {
   transition: background 150ms ease, border-color 150ms ease;
   outline: none;
 }
-
-/* Hovering click indicator box */
-.tray::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 120px;
-  height: 120px;
-  border: 2px solid var(--sldcs-teal);
-  border-radius: var(--radius);
-  opacity: 0;
-  pointer-events: none;
-  animation: hover-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes hover-pulse {
-  0%, 100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.8);
-  }
-  50% {
-    opacity: 0.6;
-    transform: translate(-50%, -50%) scale(1.2);
-  }
-}
 .tray.dragover {
   border: 1px solid var(--sldcs-teal);
   background: rgba(14, 127, 110, 0.06);
@@ -212,9 +185,20 @@ html, body {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.step-num { color: var(--sldcs-teal); font-size: 0.875rem; font-weight: 600; }
+.step-num { color: var(--sldcs-coral); font-size: 0.875rem; font-weight: 600; }
 .step-name { font-weight: 600; letter-spacing: 0.06em; font-size: 0.875rem; }
 .step-desc { font-size: 0.75rem; }
+
+.upload-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--sldcs-coral); color: #FFFFFF;
+  border: none; border-radius: var(--radius);
+  padding: 12px 28px; font-size: 1rem; font-weight: 600;
+  cursor: pointer; transition: background 150ms ease, transform 100ms ease;
+  font-family: var(--font-body);
+}
+.upload-btn:hover { background: #B73912; transform: scale(1.02); }
+.upload-btn:active { transform: scale(0.98); }
 
 /* ---------- Screen 2 — Processing ---------- */
 .screen-processing { display: flex; flex-direction: column; align-items: center; gap: 16px; }
